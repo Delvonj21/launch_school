@@ -1,7 +1,20 @@
-# Set Up and Display the Board
+import os
+import random
+
+
+INITIAL_MARKER = " "
+HUMAN_MARKER = "X"
+COMPUTER_MARKER = "O"
+
+
+def prompt(message):
+    print(f"==> {message}")
 
 
 def display_board(board):
+    os.system("clear")
+
+    print()
     print("     |     |")
     print(f"  {board[1]}  |  {board[2]}  |  {board[3]}")
     print("     |     |")
@@ -13,37 +26,87 @@ def display_board(board):
     print("     |     |")
     print(f"  {board[7]}  |  {board[8]}  |  {board[9]}")
     print("     |     |")
+    print()
 
 
 def initialize_board():
-    return {square: " " for square in range(1, 10)}
+    return {square: INITIAL_MARKER for square in range(1, 10)}
 
 
-# Player and Computer Turn
-
-
-def prompt(message):
-    print(f"==> {message}")
+def empty_squares(board):
+    return [key for key, value in board.items() if value == INITIAL_MARKER]
 
 
 def player_chooses_square(board):
-    # valid square choices are those board keys whose values are spaces
-    empty_squares = [key for key, value in board.items() if value == " "]
-
     while True:
-        valid_choices = [str(num) for num in empty_squares]
+        valid_choices = [str(num) for num in empty_squares(board)]
         prompt(f"Choose a square ({', '.join(valid_choices)}):")
-        square = int(input().strip())
-        if square in empty_squares:
+        square = input().strip()
+        if square in valid_choices:
             break
 
-        prompt("Sorry, that's not a valid choice.")
+        prompt("Sorry, that's not a valid choice")
 
-    board[int(square)] = "X"
+    board[int(square)] = HUMAN_MARKER
+
+
+def computer_chooses_square(board):
+    if len(empty_squares(board)) == 0:
+        return
+    square = random.choice(empty_squares(board))
+    board[square] = COMPUTER_MARKER
+
+
+def board_full(board):
+    return len(empty_squares(board)) == 0
+
+
+def someone_won(board):
+    return bool(detect_winner(board))
+
+
+def detect_winner(board):
+    winning_lines = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],  # rows
+        [1, 4, 7],
+        [2, 5, 8],
+        [3, 6, 9],  # columns
+        [1, 5, 9],
+        [3, 5, 7],  # diagonals
+    ]
+
+    for line in winning_lines:
+        sq1, sq2, sq3 = line
+        if (
+            board[sq1] == HUMAN_MARKER
+            and board[sq2] == HUMAN_MARKER
+            and board[sq3] == HUMAN_MARKER
+        ):
+            return "Player"
+        elif (
+            board[sq1] == COMPUTER_MARKER
+            and board[sq2] == COMPUTER_MARKER
+            and board[sq3] == COMPUTER_MARKER
+        ):
+            return "Computer"
+
+    return None
 
 
 board = initialize_board()
 display_board(board)
 
-player_chooses_square(board)
-display_board(board)
+while True:
+    player_chooses_square(board)
+    computer_chooses_square(board)
+    display_board(board)
+
+    if someone_won(board) or board_full(board):
+        break
+
+if someone_won(board):
+    prompt(f"{detect_winner(board)} won!")
+else:
+    prompt("It's a tie!")

@@ -14,6 +14,7 @@ def prompt(message):
 def display_board(board):
     os.system("clear")
 
+    prompt(f"You are {HUMAN_MARKER}. Computer is {COMPUTER_MARKER}")
     print()
     print("     |     |")
     print(f"  {board[1]}  |  {board[2]}  |  {board[3]}")
@@ -29,6 +30,19 @@ def display_board(board):
     print()
 
 
+def join_or(sequence, delimiter=", ", word="or"):
+    match len(sequence):
+        case 0:
+            return ""
+        case 1:
+            return str(sequence[0])
+        case 2:
+            return f"{sequence[0]} {word} {sequence[1]}"
+
+    leading_items = delimiter.join(str(item) for item in sequence[0:-1])
+    return f"{leading_items}{delimiter}{word} {sequence[-1]}"
+
+
 def initialize_board():
     return {square: INITIAL_MARKER for square in range(1, 10)}
 
@@ -40,7 +54,7 @@ def empty_squares(board):
 def player_chooses_square(board):
     while True:
         valid_choices = [str(num) for num in empty_squares(board)]
-        prompt(f"Choose a square ({', '.join(valid_choices)}):")
+        prompt(f"Choose a square ({join_or(valid_choices)}):")
         square = input().strip()
         if square in valid_choices:
             break
@@ -95,18 +109,35 @@ def detect_winner(board):
     return None
 
 
-board = initialize_board()
-display_board(board)
+def play_tic_tac_toe():
+    while True:
+        board = initialize_board()
 
-while True:
-    player_chooses_square(board)
-    computer_chooses_square(board)
-    display_board(board)
+        while True:
+            display_board(board)
+            player_chooses_square(board)
+            if someone_won(board) or board_full(board):
+                break
 
-    if someone_won(board) or board_full(board):
-        break
+            computer_chooses_square(board)
 
-if someone_won(board):
-    prompt(f"{detect_winner(board)} won!")
-else:
-    prompt("It's a tie!")
+            if someone_won(board) or board_full(board):
+                break
+
+        display_board(board)
+
+        if someone_won(board):
+            prompt(f"{detect_winner(board)} won!")
+        else:
+            prompt("It's a tie!")
+
+        prompt("Play again? (y or n)")
+        answer = input().lower()
+
+        if answer and answer[0] != "y":
+            break
+
+    prompt("Thanks for playing Tic Tac Toe!")
+
+
+play_tic_tac_toe()

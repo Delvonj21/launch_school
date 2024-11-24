@@ -9,14 +9,6 @@ def leading_substrings(string):
     return result
 
 
-# Initialize an empty list to store substrings.
-# Iterate through the input string by index:
-# For each index i from 0 to the last character of the string:
-# Create a substring starting at the first character and ending at index i.
-# Append the substring to the list.
-# Return the list of substrings.
-
-
 # All of these examples should print True
 print(leading_substrings("abc") == ["a", "ab", "abc"])
 print(leading_substrings("a") == ["a"])

@@ -4,18 +4,6 @@
 
 # You may not use any of Python's add-on packages to solve this problem. Your task is to programmatically determine whether a number is prime without relying on functions that already do that for you.
 
-# Input: number
-# Output: return True if number is prime, False otherwise
-
-# Rules:
-# A prime number is a positive number that is evenly divisible by itself and 1.
-# - 23 is a prime number since its only divisors are 1 and 23
-# 24 isn't a prime number it has divisors of 1, 2, 3, 4, 6, 8, 12, and 24
-# 1 is not a prime number
-
-# Data Structure
-# Integers
-
 
 def is_prime(number):
     if number == 1:

@@ -22,3 +22,4 @@ class Truck(Vehicle):
 # Comments show expected output
 truck1 = Truck(1994)  # Ready to go!
 print(truck1.year)  # 1994
+print(truck1.start_engine())  # Ready to go!

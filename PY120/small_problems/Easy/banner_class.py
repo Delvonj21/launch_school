@@ -5,7 +5,6 @@
 class Banner:
     def __init__(self, message):
         self.message = message
-      
 
     def __str__(self):
         return "\n".join([self._horizontal_rule(),
@@ -15,10 +14,10 @@ class Banner:
                         self._horizontal_rule()])
 
     def _empty_line(self):
-        return f"| " + " " * len(self.message) + " |"
+        return "| " + " " * len(self.message) + " |"
     
     def _horizontal_rule(self):
-        return "+-" + "-" * len(self.message) + "-+"
+        return f"+-" + "-" * len(self.message) + "-+"
     
     def _message_line(self):
         return f"| {self.message} |"

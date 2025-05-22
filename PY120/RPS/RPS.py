@@ -37,9 +37,12 @@ class RPSGame:
     def __init__(self):
         self._human = Human()
         self._computer = Computer()
+        self._human_score = 0
+        self._computer_score = 0
 
     def _display_welcome_message(self):
         print("Welcome to Rock Paper Scissors!")
+        print("First to 5 points wins!")
 
     def _display_goodbye_message(self):
         print("Thanks for playing Rock Paper Scissors. Goodbye!")
@@ -64,6 +67,15 @@ class RPSGame:
             or (computer_move == "scissors" and human_move == "paper")
         )
 
+    def _update_score(self):
+        if self._human_wins():
+            self._human_score += 1
+        elif self._computer_wins():
+            self._computer_score += 1
+
+    def _display_score(self):
+        print(f"Score: Human - {self._human_score}, Computer - {self._computer_score}")
+
     def _display_winner(self):
         print(f"You chose: {self._human.move}")
         print(f"The computer chose: {self._computer.move}")
@@ -75,6 +87,9 @@ class RPSGame:
         else:
             print("It's a tie")
 
+        self._update_score()
+        self._display_score()
+
     def play(self):
         self._display_welcome_message()
 
@@ -82,8 +97,23 @@ class RPSGame:
             self._human.choose()
             self._computer.choose()
             self._display_winner()
-            if not self._play_again():
-                break
+
+            if self._human_score == 5:
+                print("You won the game!")
+                if self._play_again():
+                    self._human_score = 0
+                    self._computer_score = 0
+                    continue
+                else:
+                    break
+            elif self._computer_score == 5:
+                print("Computer won the game!")
+                if self._play_again():
+                    self._human_score = 0
+                    self._computer_score = 0
+                    continue
+                else:
+                    break
 
         self._display_goodbye_message()
 

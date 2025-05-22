@@ -2,7 +2,7 @@ import random
 
 
 class Player:
-    CHOICES = ("rock", "paper", "scissors")
+    CHOICES = ("rock", "paper", "scissors", "spock", "lizard")
 
     def __init__(self):
         self.move = None
@@ -21,7 +21,7 @@ class Human:
         self.move = None
 
     def choose(self):
-        prompt = "Please choose rock, paper, or scissors: "
+        prompt = "Please choose rock, paper, scissors, spock, or lizard: "
 
         while True:
             choice = input(prompt).lower()
@@ -41,11 +41,11 @@ class RPSGame:
         self._computer_score = 0
 
     def _display_welcome_message(self):
-        print("Welcome to Rock Paper Scissors!")
+        print("Welcome to Rock Paper Scissors Spock Lizard!")
         print("First to 5 points wins!")
 
     def _display_goodbye_message(self):
-        print("Thanks for playing Rock Paper Scissors. Goodbye!")
+        print("Thanks for playing Rock Paper Scissors Spock Lizard. Goodbye!")
 
     def _human_wins(self):
         human_move = self._human.move
@@ -53,8 +53,15 @@ class RPSGame:
 
         return (
             (human_move == "rock" and computer_move == "scissors")
-            or (human_move == "paper" and computer_move == "rock")
+            or (human_move == "rock" and computer_move == "lizard")
             or (human_move == "scissors" and computer_move == "paper")
+            or (human_move == "scissors" and computer_move == "lizard")
+            or (human_move == "paper" and computer_move == "rock")
+            or (human_move == "paper" and computer_move == "spock")
+            or (human_move == "lizard" and computer_move == "spock")
+            or (human_move == "lizard" and computer_move == "paper")
+            or (human_move == "spock" and computer_move == "scissors")
+            or (human_move == "spock" and computer_move == "rock")
         )
 
     def _computer_wins(self):
@@ -63,8 +70,15 @@ class RPSGame:
 
         return (
             (computer_move == "rock" and human_move == "scissors")
-            or (computer_move == "paper" and human_move == "rock")
+            or (computer_move == "rock" and human_move == "lizard")
             or (computer_move == "scissors" and human_move == "paper")
+            or (computer_move == "scissors" and human_move == "lizard")
+            or (computer_move == "paper" and human_move == "rock")
+            or (computer_move == "paper" and human_move == "spock")
+            or (computer_move == "lizard" and human_move == "spock")
+            or (computer_move == "lizard" and human_move == "paper")
+            or (computer_move == "spock" and human_move == "scissors")
+            or (computer_move == "spock" and human_move == "rock")
         )
 
     def _update_score(self):
